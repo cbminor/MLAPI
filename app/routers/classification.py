@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.classification import BookClassificationRequest, BookClassificationResponse
-from app.models.classification.predictor import predict_book_genre
+from app.helpers.classification.predictor import predict_book_genre
 
 router = APIRouter()
 
