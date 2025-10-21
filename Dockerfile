@@ -10,10 +10,7 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-# Install and Download NLTK Stopwords
-RUN python -m nltk.downloader -d /usr/local/share/nltk_data wordnet omw-1.4
-ENV NLTK_DATA=/usr/local/share/nltk_data
-
+RUN python -m spacy download en_core_web_sm
 
 COPY ./app /code/app
 
