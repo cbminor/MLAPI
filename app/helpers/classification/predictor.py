@@ -4,10 +4,10 @@ from app.core.config import settings
 
 
 # --- Initialize paths ---
-MODEL_DIR = Path(settings.MODEL_DIR) / "classification"
+# MODEL_DIR = "classification"
 
-LR_MODEL_PATH = MODEL_DIR / "lr_genre_classifier.joblib"
-BERT_MODEL_PATH = MODEL_DIR / "distilbert_genre_classification.pkl"
+LR_MODEL_PATH = "classification/lr_genre_classifier.joblib"
+BERT_MODEL_PATH = "classification/distilbert_genre_classification.pkl"
 
 
 # --- Load models once ---
