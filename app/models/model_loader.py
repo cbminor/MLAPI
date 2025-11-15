@@ -25,6 +25,8 @@ class DOSpaceClient:
         #     with open(local_path, 'rb') as f:
         #         return BytesIO(f.read())
         
+        print("File Key: ", file_key)
+        print("Bucket: ", self.bucket)
         response = self.s3.get_object(Bucket=self.bucket, Key=file_key)
         data = BytesIO(response['Body'].read())
 
