@@ -1,5 +1,15 @@
-from fastapi import FastAPI
-from app.routers import classification
+
+
+import traceback
+
+print("Starting FastAPI...")
+try:
+    # put your existing imports below
+    from fastapi import FastAPI
+    from app.routers import classification
+except Exception:
+    traceback.print_exc()
+    raise
 
 app = FastAPI(title="ML Model API", version="1.0")
 
