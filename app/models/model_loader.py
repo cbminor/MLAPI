@@ -21,9 +21,9 @@ class DOSpaceClient:
         os.makedirs(cache_dir, exist_ok=True)
         local_path = os.path.join(cache_dir, os.path.basename(file_key))
 
-        if os.path.exists(local_path):
-            with open(local_path, 'rb') as f:
-                return BytesIO(f.read())
+        # if os.path.exists(local_path):
+        #     with open(local_path, 'rb') as f:
+        #         return BytesIO(f.read())
         
         response = self.s3.get_object(Bucket=self.bucket, Key=file_key)
         data = BytesIO(response['Body'].read())
