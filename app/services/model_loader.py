@@ -18,6 +18,10 @@ def load_pickle_model(model_path: str):
     model = CrossPlatformUnpickler(bytes_stream).load()
     return model
 
+def cloudpickle_load_posix(data: bytes):
+    """Load a cloudpickle pickle on Linux that was created on Windows."""
+    return CrossPlatformUnpickler(io.BytesIO(data)).load()
+
 @lru_cache
 def load_joblib_model(model_path: str):
     # Step 1: Download the file from Spaces
@@ -37,7 +41,7 @@ def load_joblib_model(model_path: str):
 
     # Step 4: Then load the inner model (via cloudpickle)
     if isinstance(model_serialized, (bytes, bytearray)):
-        model = cloudpickle.loads(model_serialized)
+        model = cloudpickle_load_posix(model_serialized)
     else:
         model = model_serialized  # already unpickled object
 
