@@ -6,7 +6,7 @@ from app.core.config import settings
 # --- Initialize paths ---
 # MODEL_DIR = "classification"
 
-LR_MODEL_PATH = "../models/classification/lr_genre_classifier.joblib"
+LR_MODEL_PATH = "app/models/classification/lr_genre_classifier.joblib"
 BERT_MODEL_PATH = "classification/distilbert_genre_classification.pkl"
 
 
