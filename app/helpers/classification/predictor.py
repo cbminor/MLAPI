@@ -1,18 +1,18 @@
 from pathlib import Path
-from app.services.model_loader import load_joblib_model, load_pickle_model
+from app.services.model_loader import load_joblib_model_local, load_pickle_model_local
 from app.core.config import settings
 
 
 # --- Initialize paths ---
 # MODEL_DIR = "classification"
 
-LR_MODEL_PATH = "classification/lr_genre_classifier.joblib"
-BERT_MODEL_PATH = "classification/distilbert_genre_classification.pkl"
+LR_MODEL_PATH = "models/classification/lr_genre_classifier.joblib"
+BERT_MODEL_PATH = "models/classification/distilbert_genre_classification.pkl"
 
 
 # --- Load models once ---
-lr_model = load_joblib_model(str(LR_MODEL_PATH))
-bert_model = load_pickle_model(str(BERT_MODEL_PATH))
+lr_model = load_joblib_model_local(str(LR_MODEL_PATH))
+bert_model = load_pickle_model_local(str(BERT_MODEL_PATH))
 
 
 # --- Prediction logic ---

@@ -23,6 +23,18 @@ def cloudpickle_load_posix(data: bytes):
     return CrossPlatformUnpickler(io.BytesIO(data)).load()
 
 @lru_cache
+def load_pickle_model_local(model_path: str):
+    with open(model_path, 'rb') as f:
+        model = CrossPlatformUnpickler(f).load()
+    return model
+
+@lru_cache
+def cloudpickle_load_local_posix(model_path: str):
+    with open(model_path, 'rb') as f:
+        data = f.read()
+    return cloudpickle_load_posix(data)   
+
+@lru_cache
 def load_joblib_model(model_path: str):
     # Step 1: Download the file from Spaces
     bytes_stream = spaces.get_file(model_path)
@@ -33,13 +45,33 @@ def load_joblib_model(model_path: str):
 
     # Step 3: First load the serialized model (via joblib)
     try:
-        model_serialized = joblib.load(bytes_stream)
+        model_serialized = CrossPlatformUnpickler(bytes_stream).load()
     except Exception as e:
         # Fallback: use cross-platform unpickler directly
         bytes_stream.seek(0)
         model_serialized = CrossPlatformUnpickler(bytes_stream).load()
 
     # Step 4: Then load the inner model (via cloudpickle)
+    if isinstance(model_serialized, (bytes, bytearray)):
+        model = cloudpickle_load_posix(model_serialized)
+    else:
+        model = model_serialized  # already unpickled object
+
+    return model
+
+
+@lru_cache
+def load_joblib_model_local(model_path: str):
+    # Step 1: Load the serialized model (via joblib)
+    with open(model_path, 'rb') as f:
+        try:
+            model_serialized = CrossPlatformUnpickler(f).load()
+        except Exception as e:
+            # Fallback: use cross-platform unpickler directly
+            f.seek(0)
+            model_serialized = CrossPlatformUnpickler(f).load()
+
+    # Step 2: Then load the inner model (via cloudpickle)
     if isinstance(model_serialized, (bytes, bytearray)):
         model = cloudpickle_load_posix(model_serialized)
     else:
